@@ -1,0 +1,6 @@
+pattern read /mschat/all/#
+pattern read /mschat/status/#
+pattern write /mschat/all/%u
+pattern write /mschat/status/%u
+pattern read /mschat/user/%u/#
+pattern write /mschat/user/+/%u
