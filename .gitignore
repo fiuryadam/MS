@@ -1,2 +1,3 @@
 mosquitto/data/*
 !mosquitto/data/.gitkeep
+mosquitto/config/passwd
