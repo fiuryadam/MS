@@ -2,3 +2,4 @@ mosquitto/data/*
 !mosquitto/data/.gitkeep
 mosquitto/config/passwd
 mosquitto/config/certs/*
+mosquitto/generate-certs.sh
