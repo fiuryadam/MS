@@ -3,6 +3,7 @@ export function SettingsScreen({
   connectionState,
   updateField,
   setAclMode,
+  setUseSsl,
 }) {
   const useUsername = form.aclMode === 'username'
   const connected = connectionState === 'connected'
@@ -27,6 +28,19 @@ export function SettingsScreen({
           Použít MQTT uživatele
         </label>
         <h2 className="settings__heading">Broker</h2>
+        <label className="acl-toggle">
+          <input
+            type="checkbox"
+            checked={Boolean(form.useSSL)}
+            onChange={(e) => setUseSsl(e.target.checked)}
+          />
+          TLS (WSS)
+        </label>
+        <p className="acl-toggle__hint">
+          Pro vlastní certifikát importujte{' '}
+          <code>mosquitto/config/certs/ca.crt</code> do důvěryhodných kořenových
+          CA a restartujte prohlížeč.
+        </p>
         <label>
           Host
           <input

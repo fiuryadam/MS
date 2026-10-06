@@ -11,20 +11,22 @@ export function loadBrokerSettings() {
       port: typeof parsed.port === 'string' ? parsed.port : undefined,
       path: typeof parsed.path === 'string' ? parsed.path : undefined,
       aclMode: parsed.aclMode === 'username' ? 'username' : 'clientId',
+      useSSL: typeof parsed.useSSL === 'boolean' ? parsed.useSSL : undefined,
     }
   } catch {
     return null
   }
 }
 
-export function saveBrokerSettings({ host, port, path, aclMode }) {
-  localStorage.setItem(
-    BROKER_KEY,
-    JSON.stringify({
-      host,
-      port,
-      path,
-      aclMode: aclMode === 'username' ? 'username' : 'clientId',
-    }),
-  )
+export function saveBrokerSettings({ host, port, path, aclMode, useSSL }) {
+  const payload = {
+    host,
+    port,
+    path,
+    aclMode: aclMode === 'username' ? 'username' : 'clientId',
+  }
+  if (typeof useSSL === 'boolean') {
+    payload.useSSL = useSSL
+  }
+  localStorage.setItem(BROKER_KEY, JSON.stringify(payload))
 }

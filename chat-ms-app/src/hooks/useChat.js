@@ -30,6 +30,9 @@ function buildConnectPayload(config) {
   const mqttUser = (config.mqttUser ?? '').trim()
   const loginIdentity = (config.identity ?? '').trim()
   const aclMode = config.aclMode === 'username' ? 'username' : 'clientId'
+  const useSSL =
+    typeof config.useSSL === 'boolean' ? config.useSSL : true
+
   return {
     host: config.host.trim(),
     port: config.port.trim(),
@@ -39,6 +42,7 @@ function buildConnectPayload(config) {
     identity: resolveChatIdentity({ ...config, mqttUser, identity: loginIdentity, aclMode }),
     aclMode,
     loginIdentity,
+    useSSL,
   }
 }
 
@@ -57,6 +61,9 @@ export function useChat() {
     const session = loadSession()
     const defaults = getDefaultBroker()
     const broker = loadBrokerSettings()
+    const useSSL =
+      broker?.useSSL ??
+      (typeof session?.useSSL === 'boolean' ? session.useSSL : defaults.useSSL)
     return {
       identity: session?.loginIdentity ?? session?.identity ?? '',
       host: broker?.host ?? session?.host ?? defaults.host,
@@ -67,6 +74,7 @@ export function useChat() {
       aclMode:
         broker?.aclMode ??
         (session?.aclMode === 'username' ? 'username' : 'clientId'),
+      useSSL,
     }
   })
   const [connectionState, setConnectionState] = useState(() =>
@@ -257,6 +265,7 @@ export function useChat() {
       port: next.port,
       path: next.path,
       aclMode: next.aclMode,
+      useSSL: next.useSSL,
     })
   }, [])
 
@@ -360,7 +369,12 @@ export function useChat() {
       const value = e.target.value
       setForm((prev) => {
         const next = { ...prev, [field]: value }
-        if (field === 'host' || field === 'port' || field === 'path') {
+        if (
+          field === 'host' ||
+          field === 'port' ||
+          field === 'path' ||
+          field === 'useSSL'
+        ) {
           persistBrokerFromForm(next)
         }
         return next
@@ -373,6 +387,17 @@ export function useChat() {
     (aclMode) => {
       setForm((prev) => {
         const next = { ...prev, aclMode }
+        persistBrokerFromForm(next)
+        return next
+      })
+    },
+    [persistBrokerFromForm],
+  )
+
+  const setUseSsl = useCallback(
+    (useSSL) => {
+      setForm((prev) => {
+        const next = { ...prev, useSSL: Boolean(useSSL) }
         persistBrokerFromForm(next)
         return next
       })
@@ -407,5 +432,6 @@ export function useChat() {
     handleSend,
     updateField,
     setAclMode,
+    setUseSsl,
   }
 }

@@ -110,6 +110,7 @@ export class MqttChatService {
       mqttUser,
       mqttPassword,
       identity,
+      useSSL = true,
     } = config
 
     if (!identity?.trim()) {
@@ -134,6 +135,7 @@ export class MqttChatService {
       mqttUser,
       mqttPassword,
       identity: identity.trim(),
+      useSSL: Boolean(useSSL),
     }
     this.identity = this.connectConfig.identity
     this.intentionalDisconnect = false
@@ -163,7 +165,7 @@ export class MqttChatService {
     will.retained = true
 
     this.client.connect({
-      useSSL: window.location.protocol === 'https:',
+      useSSL: Boolean(this.connectConfig.useSSL),
       userName: mqttUser,
       password: mqttPassword,
       keepAliveInterval: 30,
@@ -359,29 +361,9 @@ export class MqttChatService {
     for (const item of this.outboundQueue.peekAll()) {
       if (item.channel === 'public') {
         this._publishPublic(item.text, item.timestamp)
-        this.outboundQueue.removeById(item.id)
-        continue
+      } else if (item.channel === 'private') {
+        this._publishPrivate(item.recipientId, item.text, item.timestamp)
       }
-
-      if (item.channel === 'private') {
-        const peerStatus = this.livePresence[item.recipientId]
-        if (peerStatus === 'online') {
-          this._publishPrivate(item.recipientId, item.text, item.timestamp)
-          this.outboundQueue.removeById(item.id)
-        }
-      }
-    }
-
-    this._emitQueueSize()
-  }
-
-  _flushPrivateForUser(userId) {
-    if (!this.connected || userId === this.identity) return
-
-    for (const item of this.outboundQueue.peekAll()) {
-      if (item.channel !== 'private') continue
-      if (item.recipientId !== userId) continue
-      this._publishPrivate(item.recipientId, item.text, item.timestamp)
       this.outboundQueue.removeById(item.id)
     }
 
@@ -434,9 +416,6 @@ export class MqttChatService {
           this.lastKnownRoster[parsedTopic.userId] = status
         }
         this._emit('presence', { userId: parsedTopic.userId, status })
-        if (status === 'online') {
-          this._flushPrivateForUser(parsedTopic.userId)
-        }
       }
       return
     }

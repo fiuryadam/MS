@@ -36,6 +36,7 @@ function App() {
           connectionState={chat.connectionState}
           updateField={chat.updateField}
           setAclMode={chat.setAclMode}
+          setUseSsl={chat.setUseSsl}
         />
       ) : chat.chatOpen ? (
         <ChatScreen {...chat} />
