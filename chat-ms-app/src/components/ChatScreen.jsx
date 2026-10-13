@@ -7,18 +7,18 @@ function connectionBanner({
   maxReconnectAttempts,
   queueSize,
 }) {
-  if (connectionState === 'connected') {
-    if (queueSize > 0) {
-      return (
-        <p className="app__status app__status--queue" role="status">
-          Ve frontě: {queueSize}{' '}
-          {queueSize === 1 ? 'zpráva' : queueSize < 5 ? 'zprávy' : 'zpráv'} k
-          odeslání…
-        </p>
-      )
-    }
-    return null
-  }
+  // if (connectionState === 'connected') {
+  //   if (queueSize > 0) {
+  //     return (
+  //       <p className="app__status app__status--queue" role="status">
+  //         Ve frontě: {queueSize}{' '}
+  //         {queueSize === 1 ? 'zpráva' : queueSize < 5 ? 'zprávy' : 'zpráv'} k
+  //         odeslání…
+  //       </p>
+  //     )
+  //   }
+  //   return null
+  // }
 
   if (connectionState === 'reconnecting') {
     return (
