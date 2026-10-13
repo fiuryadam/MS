@@ -1,13 +1,8 @@
-"""Application entry and window orchestration."""
-
 from __future__ import annotations
-
 import logging
 from pathlib import Path
-
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
-
 from msc.auth.oauth import get_credentials, login_interactive
 from msc.db.store import SqliteStore
 from msc.drive.client import DriveClient

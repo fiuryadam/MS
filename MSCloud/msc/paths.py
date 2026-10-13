@@ -1,7 +1,4 @@
-"""Filesystem paths for project and user data."""
-
 from __future__ import annotations
-
 import os
 from pathlib import Path
 
@@ -42,7 +39,6 @@ def cache_dir() -> Path:
 
 
 def safe_destination(base_dir: Path, filename: str) -> Path:
-    """Resolve a file path under base_dir; reject path traversal."""
     base = base_dir.resolve()
     dest = (base / filename).resolve()
     if dest != base and base not in dest.parents:

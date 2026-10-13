@@ -1,14 +1,10 @@
-"""File + console logging, crash dumps, and global exception hooks."""
-
 from __future__ import annotations
-
 import atexit
 import faulthandler
 import logging
 import sys
 import threading
 from pathlib import Path
-
 from msc.paths import logs_dir
 
 _crash_file = None

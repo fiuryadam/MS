@@ -1,13 +1,8 @@
-"""Google OAuth for installed desktop apps."""
-
 from __future__ import annotations
-
 import logging
-
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
-
 from msc.auth.tokens import delete_credentials, load_credentials, save_credentials
 from msc.config import SCOPES
 from msc.paths import credentials_path
