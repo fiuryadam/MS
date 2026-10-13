@@ -11,7 +11,7 @@ WebSocket pro aplikaci: `localhost:9999`, cesta `/mqtt`, **TLS (WSS)** — v GUI
 Před prvním startem nebo po smazání certů v `config/certs/`:
 
 ```powershell
-docker run --rm --entrypoint sh -v c:/School/ChatMS/mosquitto:/mosquitto -w /mosquitto alpine/openssl generate-certs.sh
+docker run --rm --entrypoint sh -v c:/School/MS/ChatMS/mosquitto:/mosquitto -w /mosquitto alpine/openssl generate-certs.sh
 ```
 
 Soubory: `config/certs/ca.crt`, `ca.key`, `server.crt`, `server.key`.
@@ -37,8 +37,8 @@ docker compose restart mosquitto
 ### Uživatelé MQTT
 
 ```powershell
-docker run --rm -v c:/School/ChatMS/mosquitto/config:/mosquitto/config eclipse-mosquitto:2 mosquitto_passwd -b /mosquitto/config/passwd novyuzivatel heslo
-docker run --rm -v c:/School/ChatMS/mosquitto/config:/mosquitto/config eclipse-mosquitto:2 chmod 644 /mosquitto/config/passwd
+docker run --rm -v c:/School/MS/ChatMS/mosquitto/config:/mosquitto/config eclipse-mosquitto:2 mosquitto_passwd -b /mosquitto/config/passwd novyuzivatel heslo
+docker run --rm -v c:/School/MS/ChatMS/mosquitto/config:/mosquitto/config eclipse-mosquitto:2 chmod 644 /mosquitto/config/passwd
 ```
 
 Po změně hesel: `docker compose restart mosquitto`.
@@ -46,7 +46,7 @@ Po změně hesel: `docker compose restart mosquitto`.
 ### Ověření TLS
 
 ```powershell
-docker run --rm -v c:/School/ChatMS/mosquitto/config/certs:/certs alpine/openssl s_client -connect host.docker.internal:9999 -CAfile /certs/ca.crt -servername localhost
+docker run --rm -v c:/School/MS/ChatMS/mosquitto/config/certs:/certs alpine/openssl s_client -connect host.docker.internal:9999 -CAfile /certs/ca.crt -servername localhost
 ```
 
 V logu Mosquitta by měl být listener na portu 9999 s TLS; v DevTools (Network) u WebSocketu URL začíná `wss://`.
