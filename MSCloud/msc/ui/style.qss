@@ -1,0 +1,190 @@
+QMainWindow, QWidget {
+    background-color: #f8f9fa;
+    color: #202124;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 13px;
+}
+
+#sidebar {
+    background-color: #f1f3f4;
+    border-right: 1px solid #dadce0;
+}
+
+#sidebarTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a73e8;
+    padding-bottom: 12px;
+}
+
+#sidebarItemActive {
+    background-color: #e8f0fe;
+    color: #1967d2;
+    padding: 10px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+QPushButton {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 500;
+    min-height: 32px;
+}
+
+#breadcrumbBar {
+    background-color: white;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+}
+
+#breadcrumbLink,
+#breadcrumbCurrent,
+#breadcrumbSep {
+    min-height: 0;
+    padding: 2px 6px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+}
+
+#breadcrumbLink {
+    color: #1a73e8;
+    font-weight: 600;
+}
+
+#breadcrumbLink:hover {
+    background-color: #e8f0fe;
+    border-radius: 4px;
+    color: #174ea6;
+}
+
+#breadcrumbCurrent {
+    color: #202124;
+    font-weight: 700;
+}
+
+#breadcrumbSep {
+    color: #5f6368;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 2px 2px;
+}
+
+#primaryButton {
+    background-color: #1a73e8;
+    color: white;
+    border: 1px solid #1a73e8;
+}
+
+#primaryButton:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+}
+
+#primaryButton:pressed {
+    background-color: #174ea6;
+}
+
+#primaryButton:disabled {
+    background-color: #a8c7fa;
+    border-color: #a8c7fa;
+    color: #f8f9fa;
+}
+
+#secondaryButton {
+    background-color: white;
+    color: #1967d2;
+    border: 1px solid #dadce0;
+}
+
+#secondaryButton:hover {
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
+}
+
+#secondaryButton:pressed {
+    background-color: #d2e3fc;
+}
+
+#logoutButton {
+    background-color: white;
+    color: #c5221f;
+    border: 1px solid #dadce0;
+}
+
+#logoutButton:hover {
+    background-color: #fce8e6;
+    border-color: #c5221f;
+}
+
+#logoutButton:pressed {
+    background-color: #fad2cf;
+}
+
+QTableView {
+    background-color: white;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    gridline-color: transparent;
+    selection-background-color: #e8f0fe;
+    selection-color: #202124;
+}
+
+QHeaderView::section {
+    background-color: #f8f9fa;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #dadce0;
+    font-weight: 600;
+    color: #5f6368;
+}
+
+#transferBar {
+    background-color: white;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+}
+
+#offlineBanner {
+    background-color: #fef7e0;
+    color: #b06000;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+#loginTitle {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a73e8;
+}
+
+#loginSubtitle {
+    font-size: 14px;
+    color: #5f6368;
+}
+
+#loginError {
+    color: #c5221f;
+    font-size: 12px;
+}
+
+QProgressBar {
+    border: none;
+    background-color: #e8eaed;
+    border-radius: 4px;
+    min-height: 22px;
+    text-align: center;
+    color: #5f6368;
+    font-size: 12px;
+}
+
+QProgressBar::chunk {
+    background-color: #1a73e8;
+    border-radius: 4px;
+}
+
+QSplitter::handle {
+    background-color: #dadce0;
+    width: 1px;
+}
