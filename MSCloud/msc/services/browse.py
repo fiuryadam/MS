@@ -1,10 +1,6 @@
-"""Folder listing with SQLite metadata cache."""
-
 from __future__ import annotations
-
 import logging
-from dataclasses import dataclass
-
+from dataclasses import dataclass, field
 from msc.db.store import FileRecord, SqliteStore, record_from_api
 from msc.drive.client import DriveClient
 
@@ -16,6 +12,7 @@ class BrowseResult:
     items: list[FileRecord]
     from_cache: bool
     error_message: str | None = None
+    removed: list[FileRecord] = field(default_factory=list)
 
 
 class BrowseService:
@@ -27,8 +24,9 @@ class BrowseService:
         try:
             raw = self._drive.list_children(folder_id)
             records = [record_from_api(item, folder_id) for item in raw]
-            self._store.upsert_listing(folder_id, records)
-            return BrowseResult(items=records, from_cache=False)
+            removed = self._store.upsert_listing(folder_id, records)
+            items = self._store.get_children(folder_id)
+            return BrowseResult(items=items, from_cache=False, removed=removed)
         except Exception as exc:
             log.exception("browse API failed, trying cache")
             cached = self._store.get_children(folder_id)

@@ -188,3 +188,28 @@ QSplitter::handle {
     background-color: #dadce0;
     width: 1px;
 }
+
+QMenu {
+    background-color: white;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 8px 20px;
+    border-radius: 4px;
+    color: #202124;
+    background-color: transparent;
+}
+
+QMenu::item:selected,
+QMenu::item:hover {
+    background-color: #e8f0fe;
+    color: #1967d2;
+}
+
+QMenu::item:disabled {
+    color: #9aa0a6;
+    background-color: transparent;
+}

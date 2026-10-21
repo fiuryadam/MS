@@ -30,7 +30,12 @@ class _Runnable(QRunnable):
         try:
             result = self._fn()
         except Exception as exc:
-            log.exception("Worker failed: %s", self._label)
+            from msc.services.sync import OfflineSyncError
+
+            if isinstance(exc, OfflineSyncError):
+                log.warning("Worker offline during %s", self._label)
+            else:
+                log.exception("Worker failed: %s", self._label)
             try:
                 self._signals.error.emit(str(exc))
             except Exception:
