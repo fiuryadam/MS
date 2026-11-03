@@ -10,10 +10,12 @@ CREATE TABLE IF NOT EXISTS files (
     pinned INTEGER NOT NULL DEFAULT 0,
     local_path TEXT,
     dirty INTEGER NOT NULL DEFAULT 0,
-    local_mtime TEXT
+    local_mtime TEXT,
+    fs_mtime TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_files_parent ON files(parent_id);
+CREATE INDEX IF NOT EXISTS idx_files_pinned ON files(pinned) WHERE pinned = 1;
 
 CREATE TABLE IF NOT EXISTS pending_ops (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,6 +24,8 @@ CREATE TABLE IF NOT EXISTS pending_ops (
     status TEXT NOT NULL DEFAULT 'pending',
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+CREATE INDEX IF NOT EXISTS idx_pending_ops_status ON pending_ops(status);
 
 CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,

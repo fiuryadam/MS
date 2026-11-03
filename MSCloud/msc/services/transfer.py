@@ -25,10 +25,13 @@ class TransferService:
         local_path: Path,
         parent_id: str,
         progress_callback: Callable[[int, int], None] | None = None,
+        name: str | None = None,
     ) -> dict:
         if not local_path.is_file():
             raise FileNotFoundError(str(local_path))
-        return self._drive.upload_file(local_path, parent_id, progress_callback)
+        return self._drive.upload_file(
+            local_path, parent_id, progress_callback, name=name
+        )
 
     def download(
         self,
