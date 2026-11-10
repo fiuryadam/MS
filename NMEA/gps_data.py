@@ -50,7 +50,6 @@ def build_datetime(date_parts, time_parts):
     hour, minute, second, micro = time_parts
     return datetime(year, month, day, hour, minute, second, micro, tzinfo=timezone.utc)
 
-
 def parse_magvar(value, direction):
     if not value:
         return None
@@ -58,7 +57,6 @@ def parse_magvar(value, direction):
     if direction == "W":
         angle = -angle
     return angle
-
 
 def haversine(lat1, lon1, lat2, lon2):
     lat1_r = math.radians(lat1)
@@ -68,7 +66,6 @@ def haversine(lat1, lon1, lat2, lon2):
     a = math.sin(dlat / 2) ** 2 + math.cos(lat1_r) * math.cos(lat2_r) * math.sin(dlon / 2) ** 2
     return 2 * EARTH_RADIUS_M * math.asin(min(1.0, math.sqrt(a)))
 
-
 def bearing(lat1, lon1, lat2, lon2):
     lat1_r = math.radians(lat1)
     lat2_r = math.radians(lat2)
@@ -76,7 +73,6 @@ def bearing(lat1, lon1, lat2, lon2):
     y = math.sin(dlon) * math.cos(lat2_r)
     x = math.cos(lat1_r) * math.sin(lat2_r) - math.sin(lat1_r) * math.cos(lat2_r) * math.cos(dlon)
     return (math.degrees(math.atan2(y, x)) + 360.0) % 360.0
-
 
 class GpsData:
     def __init__(self):
@@ -98,6 +94,7 @@ class GpsData:
         self.dgpsid = None
         self.speed = None
         self.course = None
+        self.satellites = []
 
     def apply_gga(self, fields, last_date=None):
         if len(fields) < 10:
@@ -166,6 +163,18 @@ class GpsData:
             self.hdop = float(fields[15])
         if fields[16]:
             self.vdop = float(fields[16])
+
+    def apply_gsv(self, fields):
+        i = 3
+        while i < len(fields) and fields[i]:
+            prn, elev, azim, snr = (fields + ["", "", ""])[i:i + 4]
+            self.satellites.append((
+                int(prn),
+                int(elev) if elev else None,
+                int(azim) if azim else None,
+                int(snr) if snr else None,
+            ))
+            i += 4
 
     def apply_vtg(self, fields):
         if len(fields) > 0 and fields[0]:

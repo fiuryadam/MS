@@ -41,12 +41,23 @@ class GpxWriter:
             self.add_child(trkpt, "ageofdgpsdata", f"{point.ageofdgpsdata:.1f}")
         if point.dgpsid is not None:
             self.add_child(trkpt, "dgpsid", str(point.dgpsid))
-        if point.speed is not None or point.course is not None:
+        if point.speed is not None or point.course is not None or point.satellites:
             ext = ET.SubElement(trkpt, "extensions")
             if point.speed is not None:
                 self.add_child(ext, f"{{{NMEA_NS}}}speed", f"{point.speed:.2f}")
             if point.course is not None:
                 self.add_child(ext, f"{{{NMEA_NS}}}course", f"{point.course:.1f}")
+            if point.satellites:
+                sats = ET.SubElement(ext, f"{{{NMEA_NS}}}satellites")
+                for prn, elev, azim, snr in point.satellites:
+                    attrs = {"prn": str(prn)}
+                    if elev is not None:
+                        attrs["elev"] = str(elev)
+                    if azim is not None:
+                        attrs["azim"] = str(azim)
+                    if snr is not None:
+                        attrs["snr"] = str(snr)
+                    ET.SubElement(sats, f"{{{NMEA_NS}}}sat", attrs)
 
     def write(self, path, segments):
         ET.register_namespace("", GPX_NS)

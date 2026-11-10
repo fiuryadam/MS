@@ -7,7 +7,6 @@ def nmea_checksum(data):
         value ^= ord(ch)
     return f"{value:02X}"
 
-
 class NmeaParser:
     def __init__(self):
         self.last_date = None
@@ -59,6 +58,8 @@ class NmeaParser:
                 self.current.apply_gsa(fields)
             elif stype == "VTG":
                 self.current.apply_vtg(fields)
+            elif stype == "GSV":
+                self.current.apply_gsv(fields)
 
     def flush(self):
         if self.current is None:
